@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кошик</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+
+    <header>
+      <nav class="header-nav">
+      <div class="logo">
+        <a href="main-page.html">
+        <img src="https://img.freepik.com/free-vector/hand-drawn-kitsune-illustration_23-2149364568.jpg?t=st=1741036214~exp=1741039814~hmac=34f52efa8aa3d20606073b9517ffe7f5c4c16971c224edeb1616acb06dc4cee2&w=900"
+        alt="Ubuyashiki Cafe" height="86px" width="86px" >
+        </a>
+      </div>
+      <div class="menu">
+        <div class="Menu-item">
+          <a href="menu.html">Меню</a>
+        </div>
+
+        <div class="Cart">
+          <a href="Cart.html">Кошик</a>
+        </div>
+
+        <div class="Orders">
+          <a href="my-offers.html">Мої замовлення</a>
+        </div>
+
+      </div>
+
+      <div class="Account">
+        <a href="#">
+          <img src="https://img.freepik.com/free-psd/contact-icon-illustration-isolated_23-2151903337.jpg?t=st=1741192572~exp=1741196172~hmac=f2bc26fcd040f2c9eec606ba4891145366981d9329107e669b6cca85b8a113f7&w=900" alt="accout-logo"
+          height="70px" width="70px">
+        </a>
+      </div>
+
+    </nav>
+    </header>
+    <main>
+    <div class="My-cart" id="fe">
+      <h1>Ваш кошик</h1>
+    </div>
+
+    <div class="container">
+      <div class="row" id="cart-container"></div>
+
+  </div>
+
+    <div class="oplata">
+      До сплати:
+    </div>
+
+    <div class="issue">
+        <button type="submit" name="button" id="issue-btn"> <a href="issue.html" id="issue-link"> <p>Оформити замовлення</p></a></button>
+    </div>
+
+  </main>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cartContainer = document.getElementById("cart-container");
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        if (cart.length === 0) {
+          cartContainer.innerHTML = "<p>Кошик порожній</p>";
+          return;
+        }
+
+        // Виводимо товари з кошика
+        for (let i = 0; i < cart.length; i++) {
+          let item = cart[i];
+
+          let block = `
+          <div class="product">
+            <div class="image">
+              <img src="${item.image}" alt="${item.name}" height="200px" width="300px">
+            </div>
+
+            <div class="info">
+              <h3>${item.name}</h3>
+              <ul class="rating">
+                <li><ion-icon name="star"></ion-icon></li>
+                <li><ion-icon name="star"></ion-icon></li>
+                <li><ion-icon name="star"></ion-icon></li>
+                <li><ion-icon name="star"></ion-icon></li>
+                <li><ion-icon name="star-half"></ion-icon></li>
+              </ul>
+
+              <div class="price-info">
+                <span class="price">${item.price}</span>
+                <span class="count">Кількість: ${item.count}</span>  <!-- Виводимо кількість -->
+              </div>
+            </div>
+          </div>
+          `;
+          cartContainer.insertAdjacentHTML("beforeend", block);
+        }
+      });
+  </script>
+  </body>
+</html>
