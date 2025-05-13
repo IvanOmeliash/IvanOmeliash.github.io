@@ -1,16 +1,27 @@
-import {useState} from "react";
+import { useState } from "react";
 import '../index.css';
 import auth from "../auth";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { 
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider 
+} from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
     const navigate = useNavigate()
+    const provider = new GoogleAuthProvider();
 
     const HandleSignUp = async (e) => {
         e.preventDefault();
+
+        if (password !== confirmPassword) {
+            alert("Паролі не співпадають!");
+            return;
+        }
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
@@ -19,6 +30,17 @@ const Register = () => {
         }
         catch (error) {
             alert("Помилка: " + error.message)
+        }
+    };
+
+    const handleGoogleSignUp = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            alert("Успішна реєстрація через Google: " + user.email);
+            navigate("/");
+        } catch (error) {
+            alert("Помилка Google Auth: " + error.message);
         }
     };
 
@@ -53,16 +75,27 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-            <label htmlFor="password-login">Підтвердіть пароль</label>
+            <label htmlFor="confirm-password">Підтвердіть пароль</label>
             <input 
-                id="password-login" 
+                id="confirm-password" 
                 type="password" 
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Введіть ваш пароль повторно"
                 required
             />
             </div>
             
             <button className="btn-login" type="submit">Зареєструватися</button>
+
+            {/* Кнопка реєстрації через Google */}
+            <button 
+                type="button" 
+                onClick={handleGoogleSignUp}
+                className="btn-google"
+            >
+                Зареєструватися через Google
+            </button>
             
             <div className="register-link">
             Вже є аккаунт? <Link id="link-to-reg" to="/login">Увійти</Link>

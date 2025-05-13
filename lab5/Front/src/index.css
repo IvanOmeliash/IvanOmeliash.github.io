@@ -895,3 +895,22 @@ main {
   background-color: #fff;
   text-align: center;
 }
+
+.btn-google {
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-google:hover {
+  background-color: #357ABD;
+}

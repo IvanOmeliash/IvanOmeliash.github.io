@@ -1,13 +1,18 @@
-import {useState} from "react";
+import { useState } from "react";
 import '../index.css';
 import auth from "../auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { 
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider 
+} from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
+    const provider = new GoogleAuthProvider();
 
     const HandleLogin = async (e) => {
         e.preventDefault();
@@ -19,6 +24,17 @@ const Login = () => {
         }
         catch (error) {
             alert("Помилка: " + error.message + "Неправильний пароль")
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            alert("Успішний вхід через Google: " + user.email);
+            navigate("/");
+        } catch (error) {
+            alert("Помилка Google Auth: " + error.message);
         }
     };
 
@@ -59,6 +75,15 @@ const Login = () => {
             <div className="register-link">
             Немає облікового запису? <Link id="link-to-reg" to="/register">Зареєструватися</Link>
             </div>
+
+            {/* Кнопка входу через Google */}
+            <button 
+                type="button" 
+                onClick={handleGoogleLogin}
+                className="btn-google"
+            >
+                Увійти через Google
+            </button>
         </form>
         </div>
         </>

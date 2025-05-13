@@ -14,7 +14,7 @@ function MyOrders() {
       if (user) {
         setUserId(user.uid);
         try {
-          const response = await fetch(`http://localhost:5000/orders?userId=${user.uid}`);
+          const response = await fetch(`http://localhost:5000/orders?userID=${user.uid}`);
           const data = await response.json();
           setOrders(data);
         } catch (error) {

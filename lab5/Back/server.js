@@ -63,11 +63,13 @@ app.post("/order", async (req, res) => {
 
 app.get("/orders", async (req, res) => {
   try {
-    const userId = req.query.userId;
-    if (!userId) return res.status(400).json({ error: "userId is required" });
+    const userID = req.query.userID;
+    if (!userID) return res.status(400).json({ error: "userId is required" });
+    console.log("🔥 Отримуємо замовлення для:", userID);
 
     // приклад з Firebase
-    const snapshot = await db.collection("orders").where("userId", "==", userId).get();
+    const snapshot = await db.collection("orders").where("userID", "==", userID).get();
+    console.log("🔥 Документи:", snapshot.docs.map(d => d.data()));
 
     const orders = snapshot.docs.map(doc => doc.data());
     res.json(orders);
